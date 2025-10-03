@@ -1,0 +1,10 @@
+{
+  "manifest_version": 3,
+  "name": "Diligenciar estudiante Q10",
+  "version": "1.0",
+  "description": "Rellena un formulario con datos aleatorios.",
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "permissions": ["scripting", "activeTab"]
+}
