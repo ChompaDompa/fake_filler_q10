@@ -31,12 +31,19 @@
         }
 
         function buildUserData(user) {
-          const fallbackNames = ["Andres", "Camilo", "Sofia", "Valentina", "David", "Julian", "Laura", "Natalia", "Mateo", "Isabella"];
+          const maleNames = ["Andres", "Camilo", "David", "Julian", "Mateo", "Sebastian", "Juan", "Carlos", "Luis", "Diego"];
+          const femaleNames = ["Sofia", "Valentina", "Laura", "Natalia", "Isabella", "Camila", "Daniela", "Maria", "Paula", "Gabriela"];
           const fallbackSurnames = ["Gomez", "Rodriguez", "Lopez", "Martinez", "Garcia", "Ramirez", "Torres", "Hernandez", "Castillo", "Vargas"];
 
-          const firstName = formatName(user?.name?.first) || pickRandom(fallbackNames);
+          // Determinar género: usar el de la API si existe; si no, aleatorio para mantener consistencia
+          const genderValue = String(user?.gender || "").toLowerCase();
+          const hasKnownGender = genderValue === "female" || genderValue === "male";
+          const isFemale = hasKnownGender ? genderValue === "female" : Math.random() < 0.5;
+          const namePool = isFemale ? femaleNames : maleNames;
+
+          const firstName = formatName(user?.name?.first) || pickRandom(namePool);
           const lastName = formatName(user?.name?.last) || pickRandom(fallbackSurnames);
-          const middleName = pickRandom(fallbackNames.filter(name => name !== firstName)) || pickRandom(fallbackNames);
+          const middleName = pickRandom(namePool.filter(name => name !== firstName)) || pickRandom(namePool);
           const secondLastName = pickRandom(fallbackSurnames.filter(name => name !== lastName)) || pickRandom(fallbackSurnames);
 
           const identification = generateDigits(7, 8);
@@ -51,7 +58,6 @@
           const country = formatLocation(user?.location?.country) || "Colombia";
           const postalCode = sanitizePostalCode(user?.location?.postcode) || generateDigits(5, 6);
 
-          const isFemale = (user?.gender || "").toLowerCase() === "female";
           const genderCandidates = isFemale
             ? ["Femenino", "Mujer", "Female", "F", "2"]
             : ["Masculino", "Hombre", "Male", "M", "1"];
@@ -583,7 +589,6 @@
     console.error("random-filler: script injection failed", error);
   }
 })();
-
 
 
 
