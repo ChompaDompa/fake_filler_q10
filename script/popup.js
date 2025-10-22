@@ -405,6 +405,16 @@
             { fillMultiple: true, allowFallback: false }
           );
 
+          // Lugar de nacimiento / municipio: seleccionar primera sugerencia visible (Selectize/autocomplete)
+          addMatcher(
+            [
+              "lugar de nacimiento",
+              "lugar de residencia"
+            ],
+            () => ({ selectFirstSuggestion: true }),
+            { fillMultiple: true, allowFallback: false }
+          );
+
           return matchers;
         }
 
@@ -468,6 +478,11 @@
           const type = (element.getAttribute("type") || "").toLowerCase();
           if (type === "radio") {
             return false;
+          }
+
+          if (typeof rawValue === "object" && rawValue && rawValue.selectFirstSuggestion) {
+            selectFirstSuggestionForInput(element);
+            return true;
           }
 
           if (type === "checkbox") {
@@ -578,6 +593,42 @@
           }
 
           return false;
+        }
+        function selectFirstSuggestionForInput(input) {
+          if (!input || !(input instanceof HTMLElement)) {
+            return;
+          }
+          try {
+            input.focus();
+            input.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+            input.click();
+
+            const trySelect = () => {
+              const visible = (el) => !!el && (el.offsetParent !== null || window.getComputedStyle(el).position === "fixed");
+
+              let candidate = null;
+
+              // Selectize pattern: first selectable or active item
+              const items = Array.from(document.querySelectorAll(
+                ".selectize-dropdown-content [data-selectable], .selectize-dropdown-content .active"
+              ));
+              candidate = items.find(visible) || items[0] || null;
+
+              // Generic autocomplete (role-based)
+              if (!candidate) {
+                const ariaItems = Array.from(document.querySelectorAll('[role="listbox"] [role="option"]'));
+                candidate = ariaItems.find(visible) || ariaItems[0] || null;
+              }
+
+              if (candidate) {
+                candidate.dispatchEvent(new MouseEvent("mousedown", { bubbles: true }));
+                candidate.click();
+                triggerEvents(input);
+              }
+            };
+
+            setTimeout(trySelect, 60);
+          } catch (_) {}
         }
         function triggerEvents(element) {
           element.dispatchEvent(new Event("input", { bubbles: true }));
