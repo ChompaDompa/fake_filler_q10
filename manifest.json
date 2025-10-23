@@ -15,7 +15,6 @@
   "permissions": [
     "scripting",
     "activeTab",
-    "tabs",
     "webNavigation"
   ],
   "icons": {
