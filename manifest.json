@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Diligenciar usuario",
-  "version": "1.2",
+  "version": "1.3",
   "description": "Rellena un formulario de usuario con datos aleatorios",
   "action": {
     "default_popup": "popup.html"
@@ -15,7 +15,14 @@
   "permissions": [
     "scripting",
     "activeTab",
-    "webNavigation"
+    "webNavigation",
+    "storage",
+    "declarativeNetRequest",
+    "declarativeNetRequestWithHostAccess"
+  ],
+  "host_permissions": [
+    "https://*.q10.com/*",
+    "https://appservicejack1-staging.azurewebsites.net/*"
   ],
   "icons": {
     "16": "img/icon16.png",
