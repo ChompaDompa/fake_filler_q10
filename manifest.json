@@ -16,7 +16,6 @@
     "scripting",
     "activeTab",
     "webNavigation",
-    "storage",
     "declarativeNetRequest",
     "declarativeNetRequestWithHostAccess"
   ],
