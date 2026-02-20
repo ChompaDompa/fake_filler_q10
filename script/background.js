@@ -13,7 +13,7 @@ const TICKET_RE = /^(JK|JQ|AQ|JACK|JH|JS)-\d+$/i;
 
 const Q10_SUFFIX_RE = /\.q10\.com\.?$/i;
 const SITE_HOST_RE = /^site\d*\.q10\.com$/i; // site, site2, etc.
-const QA_TARGET_RE = /^pruebas-qa\d+\.q10\.com$/i;
+const QA_TARGET_RE = /^qa\d+\.q10\.com$/i;
 const AZURE_SUBIDA_URL = "https://appservicejack1-staging.azurewebsites.net/";
 
 // Reglas DNR por pesta�a (no persistimos estado manualmente)
@@ -28,7 +28,7 @@ function addSlotRedirectRule(tabId, mode, slotNum) {
     targetHost = azure.hostname;
   } else {
     const n = slotNum || 1;
-    targetHost = `pruebas-qa${n}.q10.com`;
+    targetHost = `qa${n}.q10.com`;
   }
   const rule = {
     id,
@@ -192,7 +192,7 @@ chrome.webNavigation.onCommitted.addListener(async (details) => {
           return;
         } else {
           const n = slotCmd.slotNum || 1;
-          const targetHost = `pruebas-qa${n}.q10.com`;
+          const targetHost = `qa${n}.q10.com`;
           u2.hostname = targetHost;
           chrome.tabs.update(details.tabId, { url: u2.toString() });
           return;
@@ -218,7 +218,7 @@ chrome.webNavigation.onCommitted.addListener(async (details) => {
   }
 });
 
-// Limpieza de la regla: si ya estamos en el host destino (pruebas-qaN...) o en AZURE, quitamos la regla
+// Limpieza de la regla: si ya estamos en el host destino (qaN...) o en AZURE, quitamos la regla
 chrome.webNavigation.onCommitted.addListener(async (details) => {
   if (details.frameId !== 0) return;
   try {

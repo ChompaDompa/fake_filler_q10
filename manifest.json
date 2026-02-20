@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Diligenciar usuario",
-  "version": "1.3",
+  "version": "1.4",
   "description": "Rellena un formulario de usuario con datos aleatorios",
   "action": {
     "default_popup": "popup.html"
