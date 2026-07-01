@@ -2,6 +2,7 @@
 <html>
 
 <head>
+  <meta charset="utf-8">
   <style>
     body {
       width: 220px;
@@ -22,6 +23,24 @@
       margin-bottom: 0;
     }
 
+    .field-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .field-row label {
+      font-size: 12px;
+      flex: 1;
+    }
+
+    .field-row input {
+      width: 60px;
+      padding: 4px;
+      font-size: 12px;
+    }
+
     #status {
       margin-top: 8px;
       font-size: 12px;
@@ -35,6 +54,10 @@
 <body>
   <button id="btn-fill">Rellenar formulario</button>
   <button id="btn-jack">Generar código Jack</button>
+  <div class="field-row">
+    <label for="text-length">Caracteres</label>
+    <input type="number" id="text-length" min="1" value="100">
+  </div>
   <button id="btn-text">Texto relleno</button>
   <button id="btn-qa">Calculadora QA</button>
   <p id="status"></p>

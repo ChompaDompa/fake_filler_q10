@@ -668,35 +668,63 @@ function generateJackCode() {
   const now = new Date();
   const day = now.getDate();
   const month = now.getMonth() + 1;
-  const hour = now.getHours();
+  const hour24 = now.getHours();
+  const hour12 = hour24 % 12 || 12;
 
   const dayMonthPart = pad2(day + month);
-  const hourPart = pad2(hour);
-  const monthHourPart = pad2(month + hour);
+  const hourPart = pad2(hour12);
+  const monthHourPart = pad2(month + hour12);
 
   return `${dayMonthPart}${hourPart}${monthHourPart}`;
 }
 
+const DEFAULT_TEXT_LENGTH = 100;
+const textLengthInput = document.getElementById("text-length");
+
 document.getElementById("btn-text").addEventListener("click", async () => {
-  const text = generateFillerText();
+  const length = getRequestedTextLength();
+  const text = generateFillerText(length);
   try {
     await navigator.clipboard.writeText(text);
-    setStatus("Texto de relleno copiado al portapapeles.");
+    setStatus(`Texto de relleno (${text.length} caracteres) copiado al portapapeles.`);
+    if (textLengthInput) {
+      textLengthInput.value = DEFAULT_TEXT_LENGTH;
+    }
   } catch (error) {
     console.error("popup: no se pudo copiar el texto de relleno", error);
     setStatus("Error al copiar el texto de relleno.");
   }
 });
 
-function generateFillerText() {
-  const sentences = [
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
-    "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
-    "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.",
-    "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.",
+function getRequestedTextLength() {
+  const parsed = parseInt(textLengthInput?.value, 10);
+  if (!Number.isFinite(parsed) || parsed <= 0) {
+    return DEFAULT_TEXT_LENGTH;
+  }
+  return parsed;
+}
+
+function generateFillerText(length) {
+  const words = [
+    "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit",
+    "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore",
+    "magna", "aliqua", "enim", "ad", "minim", "veniam", "quis", "nostrud",
+    "exercitation", "ullamco", "laboris", "nisi", "aliquip", "ex", "ea",
+    "commodo", "consequat", "duis", "aute", "irure", "in", "reprehenderit",
+    "voluptate", "velit", "esse", "cillum", "eu", "fugiat", "nulla", "pariatur",
+    "excepteur", "sint", "occaecat", "cupidatat", "non", "proident", "sunt",
+    "culpa", "qui", "officia", "deserunt", "mollit", "anim", "id", "est", "laborum",
   ];
-  return sentences[Math.floor(Math.random() * sentences.length)];
+
+  let result = "";
+  let index = 0;
+  while (result.length < length) {
+    result += (result ? " " : "") + words[index % words.length];
+    index += 1;
+  }
+  result = result.slice(0, length);
+
+  return result.charAt(0).toUpperCase() + result.slice(1);
 }
 
 document.getElementById("btn-qa").addEventListener("click", () => {
