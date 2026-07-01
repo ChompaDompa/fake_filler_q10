@@ -678,57 +678,8 @@ function generateJackCode() {
   return `${dayMonthPart}${hourPart}${monthHourPart}`;
 }
 
-const DEFAULT_TEXT_LENGTH = 100;
-const textLengthInput = document.getElementById("text-length");
-
-document.getElementById("btn-text").addEventListener("click", async () => {
-  const length = getRequestedTextLength();
-  const text = generateFillerText(length);
-  try {
-    await navigator.clipboard.writeText(text);
-    setStatus(`Texto de relleno (${text.length} caracteres) copiado al portapapeles.`);
-    if (textLengthInput) {
-      textLengthInput.value = DEFAULT_TEXT_LENGTH;
-    }
-  } catch (error) {
-    console.error("popup: no se pudo copiar el texto de relleno", error);
-    setStatus("Error al copiar el texto de relleno.");
-  }
-});
-
-function getRequestedTextLength() {
-  const parsed = parseInt(textLengthInput?.value, 10);
-  if (!Number.isFinite(parsed) || parsed <= 0) {
-    return DEFAULT_TEXT_LENGTH;
-  }
-  return parsed;
-}
-
-function generateFillerText(length) {
-  const words = [
-    "lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit",
-    "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore",
-    "magna", "aliqua", "enim", "ad", "minim", "veniam", "quis", "nostrud",
-    "exercitation", "ullamco", "laboris", "nisi", "aliquip", "ex", "ea",
-    "commodo", "consequat", "duis", "aute", "irure", "in", "reprehenderit",
-    "voluptate", "velit", "esse", "cillum", "eu", "fugiat", "nulla", "pariatur",
-    "excepteur", "sint", "occaecat", "cupidatat", "non", "proident", "sunt",
-    "culpa", "qui", "officia", "deserunt", "mollit", "anim", "id", "est", "laborum",
-  ];
-
-  let result = "";
-  let index = 0;
-  while (result.length < length) {
-    result += (result ? " " : "") + words[index % words.length];
-    index += 1;
-  }
-  result = result.slice(0, length);
-
-  return result.charAt(0).toUpperCase() + result.slice(1);
-}
-
 document.getElementById("btn-qa").addEventListener("click", () => {
-  setStatus("Calculadora QA: próximamente.");
+  chrome.tabs.create({ url: chrome.runtime.getURL("calculadora.html") });
 });
 
 

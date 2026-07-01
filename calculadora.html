@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>Calculadora QA</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      max-width: 480px;
+      margin: 40px auto;
+      padding: 0 16px;
+    }
+
+    h1 {
+      font-size: 18px;
+      margin-bottom: 24px;
+    }
+
+    .field {
+      margin-bottom: 24px;
+    }
+
+    .field label {
+      display: block;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .field input {
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      box-sizing: border-box;
+      margin-bottom: 8px;
+    }
+
+    .field button {
+      padding: 8px 12px;
+      font-size: 13px;
+      cursor: pointer;
+    }
+
+    #result {
+      margin-top: 16px;
+      font-size: 13px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 12px;
+      font-size: 13px;
+    }
+
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Calculadora QA</h1>
+
+  <div class="field">
+    <label for="puntos">Puntos:</label>
+    <input type="text" id="puntos" inputmode="decimal" placeholder="Ej: 1500 o 1.25">
+    <button id="btn-calcular-puntos">Calcular</button>
+    <div id="puntos-table"></div>
+  </div>
+
+  <div class="field">
+    <label for="tiempo">Tiempo:</label>
+    <input type="text" id="tiempo" placeholder="Ej: 2h 15 (2h 15m)">
+    <button id="btn-calcular-tiempo">Calcular</button>
+    <div id="tiempo-table"></div>
+  </div>
+
+  <p id="result"></p>
+
+  <script src="script/calculadora.js"></script>
+</body>
+
+</html>
