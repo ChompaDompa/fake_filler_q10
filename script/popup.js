@@ -1,7 +1,17 @@
-(async () => {
+const statusEl = document.getElementById("status");
+
+function setStatus(message) {
+  if (statusEl) {
+    statusEl.textContent = message;
+  }
+}
+
+document.getElementById("btn-fill").addEventListener("click", async () => {
+  setStatus("Rellenando formulario...");
   try {
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
     if (!tab) {
+      setStatus("No se encontró una pestaña activa.");
       return;
     }
 
@@ -636,14 +646,62 @@
         }
       },
     });
+    setStatus("Formulario rellenado.");
   } catch (error) {
     console.error("random-filler: script injection failed", error);
+    setStatus("Error al rellenar el formulario.");
   }
-})();
+});
 
+document.getElementById("btn-jack").addEventListener("click", async () => {
+  const code = generateJackCode();
+  setStatus(`Código Jack: ${code}`);
+  try {
+    await navigator.clipboard.writeText(code);
+  } catch (error) {
+    console.error("popup: no se pudo copiar el código Jack", error);
+  }
+});
 
+function generateJackCode() {
+  const pad2 = (value) => String(value).padStart(2, "0");
+  const now = new Date();
+  const day = now.getDate();
+  const month = now.getMonth() + 1;
+  const hour = now.getHours();
 
+  const dayMonthPart = pad2(day + month);
+  const hourPart = pad2(hour);
+  const monthHourPart = pad2(month + hour);
 
+  return `${dayMonthPart}${hourPart}${monthHourPart}`;
+}
+
+document.getElementById("btn-text").addEventListener("click", async () => {
+  const text = generateFillerText();
+  try {
+    await navigator.clipboard.writeText(text);
+    setStatus("Texto de relleno copiado al portapapeles.");
+  } catch (error) {
+    console.error("popup: no se pudo copiar el texto de relleno", error);
+    setStatus("Error al copiar el texto de relleno.");
+  }
+});
+
+function generateFillerText() {
+  const sentences = [
+    "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+    "Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+    "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum.",
+    "Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia.",
+  ];
+  return sentences[Math.floor(Math.random() * sentences.length)];
+}
+
+document.getElementById("btn-qa").addEventListener("click", () => {
+  setStatus("Calculadora QA: próximamente.");
+});
 
 
 
