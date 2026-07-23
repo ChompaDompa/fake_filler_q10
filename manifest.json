@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Diligenciar usuario",
   "version": "1.6",
-  "description": "Diligencia usuarios en la plataforma Q10 con datos de prueba, redirecciona a Jira a partir de un código de tarea (JK, JH, JS, entre otros) seguido de un guion y números, redirige subdominios con el prefijo \"slot\" hacia su slot de prueba correspondiente, genera el código de Jack y abre la página con las calculadoras de tiempo y puntos.",
+  "description": "Diligencia usuarios Q10, redirige tareas Jira, mapea subdominios 'slot' a pruebas, genera código Jack y abre calculadoras.",
   "action": {
     "default_popup": "popup.html"
   },
