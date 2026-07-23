@@ -23,6 +23,18 @@ puntosInput.addEventListener("input", () => {
   }
 });
 
+puntosInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    document.getElementById("btn-calcular-puntos").click();
+  }
+});
+
+tiempoInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    document.getElementById("btn-calcular-tiempo").click();
+  }
+});
+
 function formatNumber(value) {
   return Number(value.toFixed(2)).toString();
 }
